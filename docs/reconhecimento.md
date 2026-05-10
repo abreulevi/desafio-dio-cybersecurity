@@ -1,4 +1,4 @@
-```markdown
+
 # Reconhecimento com Netdiscover
 
 ## Objetivo
